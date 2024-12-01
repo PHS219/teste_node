@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Captação de Leads</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Lead</h1>
+    <form id="leadForm">
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="tel" id="telefone" placeholder="Telefone" required />
+      <input type="email" id="email" placeholder="E-mail" required />
+      <select id="cursoInteresse" required>
+        <option value="">Selecione um curso</option>
+        <option value="1">Análise de Sistemas</option>
+        <option value="2">Ciências da Computação</option>
+        <option value="3">Banco de Dados</option>
+      </select>
+      <button type="submit">Cadastrar Lead</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const telefone = document.getElementById('telefone').value;
+      const email = document.getElementById('email').value;
+      const cursoInteresse = document.getElementById('cursoInteresse').value;
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome, telefone, email, cursoInteresse })
+      })
+      .then(response => response.json())
+      .then(data => alert('Lead cadastrado com sucesso!'))
+      .catch(error => alert('Erro ao cadastrar lead'));
+    });
+  </script>
+</body>
+</html>
